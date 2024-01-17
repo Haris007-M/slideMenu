@@ -1,0 +1,12 @@
+
+.icon-container {
+  cursor: pointer;
+}
+
+
+/* styles.css */
+.carousel-container {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+}
+
