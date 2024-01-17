@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./styles.css";
-
+import { useSpring, animated } from "react-spring";
 import electronics from "../assets/electronics.svg";
 import sports from "../assets/sports.svg";
 import outdoor from "../assets/outdoor.svg";
@@ -59,7 +59,11 @@ const ButtonCarousel = () => {
     }
     setActiveIndex((prevIndex) => (prevIndex + 1) % initialButtonsData.length);
   };
-
+  const fadeIn = useSpring({
+    opacity: 1,
+    from: { opacity: 0 },
+    config: { duration: 300 },
+  });
   return (
     <div
       style={{
@@ -80,20 +84,20 @@ const ButtonCarousel = () => {
       }}
       ref={containerRef}>
       <nav className="p-5 rounded-sm flex " style={{}}>
-        {buttonsData.map((button, index) => (
-          <button
+      {buttonsData.map((button, index) => (
+          <animated.button
             key={index}
             type="button"
             style={{
               width: "180px",
-              transition: "transform 0.3s ease-in-out",
-              transform: `translateX(${0}px) scaleY(${buttonAddedFlags[index] ? 1 : 0.8})`,
-              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+              ...fadeIn,
+              boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.1)",
             }}
-            className="text-black h-10 bg-[#FFFFFF] hover:bg-[#FFFFFF] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-[#FFFFFF] dark:hover:bg-[#FFFFFF]">
+            className="text-black h-10 bg-[#FFFFFF] hover:bg-[#FFFFFF] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-[#FFFFFF] dark:hover:bg-[#FFFFFF]"
+          >
             <img src={button.imageSrc} alt="" width={15} className="me-2" />
             {button.label}
-          </button>
+          </animated.button>
         ))}
         {buttonAddedFlags[activeIndex] ? null : (
           <img src={arrow1} alt="" width={25} className="me-2" />
@@ -113,10 +117,10 @@ const ButtonCarousel = () => {
             />
           </div>
         )}
-        {buttonAddedFlags[activeIndex ] ? null : (
-          <img src={arrow1} alt="" width={15} className="me-2" />
+        {buttonAddedFlags[activeIndex + 1] ? null : (
+          <img src={arrow1} alt="" width={15} className="me-2 relative top-[-0.75rem]" />
         )}
-        {buttonAddedFlags[activeIndex+1] ? null : (
+        {buttonAddedFlags[activeIndex] ? null : (
           <div
             // onClick={handleImageClick}
             className="text-black bg-[#FFFFFF] hover:bg-[#FFFFFF] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-3 py-1.5 text-center inline-flex items-center me-2 dark:bg-[#FFFFFF] dark:hover:bg-[#FFFFFF] relative top-[-1.75rem]"
